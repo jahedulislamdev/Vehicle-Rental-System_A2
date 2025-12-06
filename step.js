@@ -10,10 +10,12 @@
 
 * to install pg for postgresql connection pool //! npm i pg --save
 * to install pg type definitions //! npm i -D @types/pg 
+* to install pg type definitions //! npm i --save-dev @types/pg
 * create a project in neon db aand get connection string for postgresql connection pool.
 * create .env file to store environment variables
 * To install dotenv package to read .env file varibales //! npm i dotenv --save 
 * configure dotenv in config/index.ts file => //! dotenv.config({path.join(process.cwd(), '.env)})
 
 
+* to create 64 random byte for jwt secre //! require('crypto').randomBytes(64).toString('hex')
 */
