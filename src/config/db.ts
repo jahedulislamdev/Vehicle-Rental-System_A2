@@ -1,7 +1,7 @@
 import { Pool } from "pg";
 import config from ".";
 
-const pool = new Pool({ connectionString: config.dbUri });
+export const pool = new Pool({ connectionString: config.dbUri });
 const initDb = async () => {
     await pool.query(` 
          CREATE TABLE IF NOT EXISTS vehicles(
@@ -17,7 +17,7 @@ const initDb = async () => {
          id SERIAL PRIMARY KEY,
          name VARCHAR(50) NOT NULL,
          email VARCHAR(50) UNIQUE NOT NULL CHECK(email = LOWER(email)),
-         password VARCHAR(15) CHECK(char_length(password) >=6),
+         password TEXT NOT NULL CHECK(char_length(password) >=6),
          phone VARCHAR(14) NOT NULL,
          role VARCHAR(20) CHECK(role IN ('admin','customer'))
       )`);

@@ -16,6 +16,8 @@
 * To install dotenv package to read .env file varibales //! npm i dotenv --save 
 * configure dotenv in config/index.ts file => //! dotenv.config({path.join(process.cwd(), '.env)})
 
-
+* to hash your password install //! npm i bcryptjs
 * to create 64 random byte for jwt secre //! require('crypto').randomBytes(64).toString('hex')
+* to install jwt //! npm i jsonwebtoken
+* to install jwt type definitions //! npm i --save-dev @types/jsonwebtoken
 */
