@@ -14,6 +14,7 @@ const getUsers = async () => {
     );
     return result;
 };
+
 const updateUser = async (
     payload: Record<string, unknown>,
     id: string,
