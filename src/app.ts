@@ -18,6 +18,9 @@ app.use("/api/v1/bookings", bookingRoutes);
 app.use("/api/v1/vehicles", vehicleRoutes);
 app.use("/api/v1/users", userRoutes);
 
+app.get("/", (req: Request, res: Response) => {
+    res.send("Vehicle Rental System is Running...");
+});
 app.use((req, res) => {
     res.status(404).send({
         success: false,
@@ -25,9 +28,4 @@ app.use((req, res) => {
         path: req.path,
     });
 });
-
-app.get("/", (req: Request, res: Response) => {
-    res.send("Vehicle Rental System is Running...");
-});
-
 export default app;
