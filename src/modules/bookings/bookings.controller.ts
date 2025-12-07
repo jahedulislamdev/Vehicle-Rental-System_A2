@@ -26,6 +26,7 @@ const createBooking = async (req: Request, res: Response) => {
 };
 const getBookings = async (req: Request, res: Response) => {
     try {
+        await bookingServices.autoReturnBookings();
         const result = await bookingServices.getBookings(req.user);
         // console.log(result);
 

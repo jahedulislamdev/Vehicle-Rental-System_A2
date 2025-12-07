@@ -101,10 +101,23 @@ const updateVehicleStatus = async (status = "available", id: string) => {
     );
     return result;
 };
+const autoReturnBookings = async () => {
+    const getExpiredBookings = await pool.query(`
+      SELECT id, vehicle_id FROM bookings WHERE status='active' AND rent_end_date< NOW()
+    `);
+    if (getExpiredBookings.rowCount === 0) return;
+    await pool.query(
+        `UPDATE bookings SET status='returned' WHERE status='active' AND rent_end_date < NOW())`,
+    );
+    await pool.query(
+        `UPDATE vehicles SET availability_status='available' WHERE id IN (SELECT vehicle_id FROM bookings WHERE status='returned' AND rent_end_date < NOW())`,
+    );
+};
 
 export const bookingServices = {
     saveBookings,
     getBookings,
     updateBookings,
     updateVehicleStatus,
+    autoReturnBookings,
 };
