@@ -40,7 +40,6 @@ const saveBookings = async (payload: Record<string, unknown>) => {
     };
     return result;
 };
-
 const getBookings = async (user: any) => {
     // admin => all bookings with customer and vehicle info, (full access)
     // customer => customers individual bookings with vehicle info (individul)
@@ -84,7 +83,6 @@ const getBookings = async (user: any) => {
         return detailedBookingInfo;
     }
 };
-
 const updateBookings = async (status: string, id: string) => {
     const result = await pool.query(
         `UPDATE bookings SET status=$1 WHERE id=$2 RETURNING *`,
@@ -99,6 +97,7 @@ const updateVehicleStatus = async (status = "available", id: string) => {
     );
     return result;
 };
+
 export const bookingServices = {
     saveBookings,
     getBookings,

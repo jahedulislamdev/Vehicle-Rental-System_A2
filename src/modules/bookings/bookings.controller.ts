@@ -55,6 +55,10 @@ const updateBooking = async (req: Request, res: Response) => {
         // console.log(updatedBookingResult?.status);
 
         if (updatedBookingResult.status === "cancelled") {
+            await bookingServices.updateVehicleStatus(
+                "available",
+                updatedBookingResult.vehicle_id,
+            );
             res.status(200).json({
                 success: true,
                 message: "Booking cancelled successfully",
