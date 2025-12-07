@@ -27,11 +27,13 @@ const createBooking = async (req: Request, res: Response) => {
 const getBookings = async (req: Request, res: Response) => {
     try {
         const result = await bookingServices.getBookings(req.user);
-        if (result.rows.length) {
+        // console.log(result);
+
+        if (result.length) {
             res.status(200).json({
                 success: true,
                 message: "Bookings retrieved successfully",
-                data: result.rows,
+                data: result,
             });
         }
     } catch (err: any) {
@@ -51,7 +53,7 @@ const updateBooking = async (req: Request, res: Response) => {
         );
 
         const updatedBookingResult = result.rows[0];
-        console.log(updatedBookingResult);
+        // console.log(updatedBookingResult);
         // console.log(updatedBookingResult?.status);
 
         if (updatedBookingResult.status === "cancelled") {
@@ -70,7 +72,7 @@ const updateBooking = async (req: Request, res: Response) => {
                 updatedBookingResult.vehicle_id,
             );
             const updatedVehicleStatus = result.rows[0];
-            console.log(updatedVehicleStatus);
+            // console.log(updatedVehicleStatus);
 
             updatedBookingResult.vehicle = {
                 availability_status: updatedVehicleStatus?.availability_status,

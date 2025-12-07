@@ -18,17 +18,19 @@ const login = async (email: string, password: string) => {
         `SELECT id,name,email,phone,role FROM users WHERE email=$1`,
         [email],
     );
-    console.log(result.rows);
+    // console.log(result.rows);
     if (result.rows.length === 0) {
         return null;
     }
     const user = result.rows[0];
+    console.log(user);
+
     const matchedPass = bcrypt.compare(password, user?.password);
     if (!matchedPass) {
         return false;
     }
     const token = jwt.sign(
-        { email: user.email, role: user.role },
+        { userId: user.id, role: user.role },
         config.jwtSecret as string,
         { expiresIn: "1d" },
     );

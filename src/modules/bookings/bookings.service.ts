@@ -1,7 +1,7 @@
 import { pool } from "../../config/db";
 
 const saveBookings = async (payload: Record<string, unknown>) => {
-    console.log(payload);
+    // console.log(payload);
 
     const { customer_id, vehicle_id, rent_start_date, rent_end_date, status } =
         payload;
@@ -19,7 +19,7 @@ const saveBookings = async (payload: Record<string, unknown>) => {
         (rentEndDate.getTime() - rentStartDate.getTime()) /
             (1000 * 60 * 60 * 24),
     );
-    console.log(totalRentDay);
+    // console.log(totalRentDay);
 
     const totalRentPrice = totalRentDay * vehicle?.daily_rent_price;
 
@@ -41,6 +41,8 @@ const saveBookings = async (payload: Record<string, unknown>) => {
     return result;
 };
 const getBookings = async (user: any) => {
+    // console.log(user);
+
     // admin => all bookings with customer and vehicle info, (full access)
     // customer => customers individual bookings with vehicle info (individul)
     let bookings;
@@ -69,8 +71,10 @@ const getBookings = async (user: any) => {
     } else {
         const result = await pool.query(
             `SELECT * FROM bookings WHERE customer_id=$1`,
-            [user.id],
+            [user?.userId],
         );
+        // console.log(result.rows[0]);
+
         bookings = result.rows;
         const detailedBookingInfo = [];
         for (const b of bookings) {

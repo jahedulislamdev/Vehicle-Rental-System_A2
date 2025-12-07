@@ -6,8 +6,10 @@ const auth = (...roles: string[]) => {
     return (req: Request, res: Response, next: NextFunction) => {
         try {
             const token = req.headers.authorization;
+            console.log("we are verifying the token : ", token);
+
             if (!token) {
-                res.status(401).json({
+                return res.status(401).json({
                     success: false,
                     message: "Access Denied!",
                 });
@@ -16,6 +18,7 @@ const auth = (...roles: string[]) => {
                 token as string,
                 config.jwtSecret as string,
             ) as JwtPayload;
+            console.log("decoded token :", decoded);
 
             req.user = decoded as JwtPayload;
             if (roles.length && !roles.includes(decoded.role)) {
