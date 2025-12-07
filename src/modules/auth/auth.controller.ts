@@ -29,11 +29,10 @@ const userLogin = async (req: Request, res: Response) => {
                 message: "Invalid User",
             });
         }
-        const { password: pass, ...user } = result.user;
         res.status(200).json({
             success: true,
             message: "Login successful",
-            data: { token: result.token, user },
+            data: result,
         });
     } catch (err: any) {
         res.status(500).json({
