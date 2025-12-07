@@ -5,7 +5,13 @@ const saveBookings = async (payload: Record<string, unknown>) => {
 
     const { customer_id, vehicle_id, rent_start_date, rent_end_date, status } =
         payload;
-
+    const bookedVehicles = await pool.query(
+        `SELECT id FROM vehicles WHERE id=$1 AND availability_status='booked'`,
+        [vehicle_id],
+    );
+    if (bookedVehicles.rows.length) {
+        throw new Error("Vehile Already booked");
+    }
     const vehicleInfo = await pool.query(
         `SELECT vehicle_name,daily_rent_price FROM vehicles WHERE id=$1`,
         [vehicle_id],
