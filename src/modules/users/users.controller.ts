@@ -4,12 +4,11 @@ import { userServices } from "./users.service";
 const getUser = async (req: Request, res: Response) => {
     try {
         const result = await userServices.getUser(req.params.userId!);
-        const { password, ...userWithoutPassword } = result.rows[0];
         if (result.rows.length) {
             res.status(200).json({
                 success: true,
                 message: "User retrieved successfully",
-                data: userWithoutPassword,
+                data: result.rows[0],
             });
         }
     } catch (err: any) {
@@ -23,14 +22,11 @@ const getUser = async (req: Request, res: Response) => {
 const getUsers = async (req: Request, res: Response) => {
     try {
         const result = await userServices.getUsers();
-        const userWithoutPassword = result.rows?.map(
-            ({ password, ...restWithoutPass }) => restWithoutPass,
-        );
         if (result.rows.length) {
             res.status(200).json({
                 success: true,
                 message: "Users retrieved successfully",
-                data: userWithoutPassword,
+                data: result.rows,
             });
         }
     } catch (err: any) {
