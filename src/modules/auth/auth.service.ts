@@ -14,27 +14,27 @@ const register = async (payload: Record<string, unknown>) => {
 };
 
 const login = async (email: string, password: string) => {
-    const result = await pool.query(
-        `SELECT id,name,email,phone,role FROM users WHERE email=$1`,
-        [email],
-    );
+    const result = await pool.query(`SELECT * FROM users WHERE email=$1`, [
+        email,
+    ]);
     // console.log(result.rows);
     if (result.rows.length === 0) {
         return null;
     }
     const user = result.rows[0];
-    console.log(user);
+    // console.log(user);
 
-    const matchedPass = bcrypt.compare(password, user?.password);
+    const matchedPass = await bcrypt.compare(password, user?.password);
     if (!matchedPass) {
         return false;
     }
     const token = jwt.sign(
-        { userId: user.id, role: user.role },
+        { userId: user?.id, role: user?.role },
         config.jwtSecret as string,
         { expiresIn: "1d" },
     );
-    return { token, user };
+    const { password: _, ...userWithoutPassword } = user;
+    return { token, user: userWithoutPassword };
 };
 export const authServices = {
     register,

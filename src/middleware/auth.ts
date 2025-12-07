@@ -5,15 +5,16 @@ import config from "../config";
 const auth = (...roles: string[]) => {
     return (req: Request, res: Response, next: NextFunction) => {
         try {
-            const token = req.headers.authorization;
-            console.log("we are verifying the token : ", token);
+            const reqHeader = req.headers.authorization;
+            console.log("we are verifying the token : ", reqHeader);
 
-            if (!token) {
+            if (!reqHeader) {
                 return res.status(401).json({
                     success: false,
                     message: "Access Denied!",
                 });
             }
+            const token = reqHeader?.split(" ")[1];
             const decoded = jwt.verify(
                 token as string,
                 config.jwtSecret as string,
